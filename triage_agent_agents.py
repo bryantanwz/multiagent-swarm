@@ -1,5 +1,14 @@
-from swarm import Agent
+from dotenv import load_dotenv
+import os
+# Load the .env file
+load_dotenv()
+# Use the API key
+api_key = os.getenv('OPENAI_API_KEY')
+# Do NOT print the API key to avoid exposing it
+# print(f"API Key: {api_key}")
 
+import json
+from swarm import Agent
 
 def process_refund(item_id, reason="NOT SPECIFIED"):
     """Refund an item. Refund an item. Make sure you have the item_id of the form item_... Ask for user confirmation before processing the refund."""
