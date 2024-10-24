@@ -1,3 +1,5 @@
+# Run this file by running "python3 triage_agent_run.py" in terminal
+
 from dotenv import load_dotenv
 import os
 # Load the .env file
