@@ -25,7 +25,8 @@ from swarm import Agent
 ## Agents
 triage_agent = Agent(
     name="Triage Agent",
-    instructions="You are a diagnostic interviewer agent. You will conduct a diagnostic interview with a patient to gather sufficient information to suggest a strong, potential diagnosis. Begin by asking general questions about the patient's symptoms, health history, and lifestyle. As the patient responds, adapt your questions dynamically, probing deeper into specific symptoms and possible conditions. Ensure that you follow up on any red flags, refine your questions to rule out or confirm diagnoses, and stop asking questions once you have enough information to confidently suggest a diagnosis. Use clear, patient-friendly language, and make sure to address any patient confusion or need for clarification. Always provide a rationale for your follow-up questions and gather enough data to justify your diagnostic conclusions. Determine when you have collected enough information, ask for confirmation from the user if they have provided all they wanted to then transfer the conversation to the diagnostic agent.",
+    instructions="You are a diagnostic interviewer agent. First ask me to provide a full patient history which I will send in parts, keep asking me to send the next part until I tell u I am done providing all existing information that I have on the patient. Determine when you have collected enough information, ask for confirmation from the user if they have provided all they wanted to then transfer the conversation to the diagnostic agent.",
+    #You will conduct a diagnostic interview with a patient to gather sufficient information to suggest a strong, potential diagnosis. Begin by asking general questions about the patient's symptoms, health history, and lifestyle. As the patient responds, adapt your questions dynamically, probing deeper into specific symptoms and possible conditions. Ensure that you follow up on any red flags, refine your questions to rule out or confirm diagnoses, and stop asking questions once you have enough information to confidently suggest a diagnosis. Use clear, patient-friendly language, and make sure to address any patient confusion or need for clarification. Always provide a rationale for your follow-up questions and gather enough data to justify your diagnostic conclusions. 
     functions=[],
 )
 
@@ -43,7 +44,7 @@ prognostic_agent = Agent(
 
 treatment_plan_agent = Agent(
     name="Treatment Plan Agent",
-    instructions="You are an agent that provides treatment plans. Generate personalized treatment recommendations based on a patients diagnosis, genetic profile, and medical history. Given the patients diagnosis of [specific cancer type], analyze their [genetic profile, treatment history, and current health status] to recommend a personalized treatment plan. Consider the latest approved treatments, potential participation in clinical trials, and the effectiveness of targeted therapies. Provide a rationale for each recommended treatment, noting any potential side effects, contraindications, and expected outcomes. Ask for confirmation from the user if they have are satisfied with the Treatment Plan Agent's answer then if they are, transfer the conversation to the Clinical Guidelines agent,",
+    instructions="You are an agent that provides treatment plans. Generate personalized treatment recommendations based on all contex on the patient including patient history, diagnosis, prognosis, and genetic profile. Pay extra attention to any abnormalities and uniqueness about the case. Given the patients diagnosis of [specific cancer type], analyze their [genetic profile, treatment history, and current health status] to recommend 3 ranked personalized treatment plan. Search the web, consider the latest approved treatments, potential participation in clinical trials, and the effectiveness of targeted therapies. Provide a rationale for each recommended treatment, noting any potential side effects, contraindications, and expected outcomes. Ask for confirmation from the user if they have are satisfied with the Treatment Plan Agent's answer then if they are, transfer the conversation to the Clinical Guidelines agent,",
     functions=[],
 )
 
@@ -59,7 +60,6 @@ final_agent = Agent(
     functions=[],
 )
 
-
 def transfer_to_triage():
 #    """Call this function if a user or patient is providing more information about the patient."""    
     return triage_agent
@@ -72,8 +72,7 @@ def transfer_to_treatment_plan():
 def transfer_to_clinical_guidelines():
     return clinical_guidelines_agent
 def transfer_to_final_agent():
-    return final_agents
-
+    return final_agent
 
 triage_agent.functions.append(transfer_to_diagnostic)
 diagnostic_agent.functions.append(transfer_to_prognostic)
