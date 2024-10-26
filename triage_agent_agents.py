@@ -6,8 +6,6 @@ import os
 load_dotenv()
 # Use the API key
 api_key = os.getenv('OPENAI_API_KEY')
-# Do NOT print the API key to avoid exposing it
-# print(f"API Key: {api_key}")
 
 import json
 from swarm import Agent
